@@ -1,0 +1,100 @@
+Admin Exam
+===
+
+## Practical (80 marks)
+
+Login details:
+
+```
+Hostname:
+Username:
+Password:
+```
+
+Please explain roughly what you did under each section, and make sure to include any commands that you think are important. I don't want to read 4 pages of `cd $dir; ls -l`
+
+Note that you have to get at least 40% in each section to pass. It doesn't matter what you get overall.
+
+### Security (10 marks)
+
+1. Secure your VM.
+    a. This is open-ended. Interpret "secure" however you would like.
+
+### Databases (5 marks)
+
+1. Set up a Postgresql server.
+3. Create a user for `meow` using the password given to you, and allow them to access the database server remotely.
+5. Import the database dump provided to you, and grant all privileges `meow` on the imported tables.
+
+### Monitoring (10 marks)
+
+*Place the answer to part 3 of this section in `/root/prometheus`.*
+
+1. Set up a Prometheus server.
+3. Set up a Prometheus node exporter that sends data to the Prometheus server.
+    a. NB: this might already be done for you by the package manager.
+1. Write a query to compute the rate of change of used disk space over a 5 minute window.
+
+### LDAP (25 marks)
+
+1. Install an LDAP server, use `o=redbrick` for the organisation.
+3. Create the organizational units "groups" and "users".
+5. Create an LDAP user under the organizational unit "users". Use the following details for them:
+    ```
+    Username: meow
+    Password: the same as the one you were given
+    Home: /home/meow
+    Shell: /bin/bash
+    ```
+1. Allow SSH authentication through LDAP.
+    1. This means that the LDAP user `meow` should be able to log in via `ssh meow@$your-vm` with their password. They should not need a local account to do this.
+    1. Their home directory should be automatically created.
+    1. There's a load of weird inconsistencies with `chsh` and LDAP. You can just ignore `chsh`, it doesn't matter if it won't work on LDAP accounts.
+
+### Web Services (15 marks)
+
+1. Install a HTTP server.
+    It doesn't matter which one you pick, just make sure it's not a buggy piece of shit.
+1. Make `http://$your-vm/index.html` a page containing just the phrase "Hello, world!".
+3. Set up SSL for your HTTP server via LetsEncrypt.
+5. Set up a userdir system. The web directory for each user should be located at `$HOME/public_html`.
+    Userdir just means that the directory `/home/$user/public_html` should be accessible at `http://$your-vm/~$user/`.
+
+### Scripting (15 marks)
+
+*Place the answers to this section in `/root/scripts`. You can implement them in any language of your choice.*
+
+1. Write a script that prints out the names of all users who are using more than 5G of disk space.
+    1. You can assume that all of their files are located in their home directory.
+1. Write a script to print out the names of all users who have a file named `infected.html` created within the past 5 minutes in their web directory.
+1. Alter the previous script to instead prevent them from logging in (be as creative as you wish!).
+
+### E-mail
+
+We aren't that evil.
+
+## Paper (20 marks)
+
+### Redbrick (5 marks)
+
+1. How many machines does Redbrick have? What are their names?
+3. A user has hit their disk quota and wants an increase. Where is this configured?
+5. How can users report inappropriate content hosted on Redbrick?
+
+### Networking (5 marks)
+
+1. Why do IP addresses exist? Why is it not sufficient to just use MAC addresses?
+3. How can you check if an IP is being used by another host without using ping?
+4. What should you consider when changing DNS records? (Provide as much detail as you like)
+
+### File Systems (5 marks)
+1. What happens under the hood when you run the `rm` command? Assume the file system is ext4.
+3. Why is the name of a file not located in the inode? (It shouldn't make a difference, but assume that the file system is ext4.)
+5. Why can you not hard link to a file on a different file system?
+
+### Miscellaneous (5 marks)
+1. Somebody ran the following command with an account that can gain root:
+    ```sudo chown user:user -R /home/user /*```
+    What happens when this occurs? What errors might appear? (Do not run it on your VM. Please.)
+1. On a scale of 1 to 10, how big is Kyle's head?
+3. Write (or find...) a program that will break us.
